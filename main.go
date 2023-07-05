@@ -1,28 +1,30 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
+	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Planet struct {
-	Name             string
-	Diameter         float64
-	Gravity          float64
-	Mass             float64
-	Type             string
-	Livable          bool
-	Description      string
-	Atmosphere       string
-	Moons            int
-	Temperature      float64
-	RotationPeriod   float64
-	RevolutionPeriod float64
-	SurfaceFeatures  []string
-	MagneticField    bool
-	Rings            bool
-	Exploration      string
+	Name             string   `json:"name`
+	Diameter         float64  `json:"Diameter"`
+	Gravity          float64  `json:"gravity"`
+	Mass             float64  `json:"mass"`
+	Type             string   `json:"type"`
+	Livable          bool     `json:"livable"`
+	Description      string   `json:"description"`
+	Atmosphere       string   `json:"atmosphere"`
+	Moons            int      `json:"moons"`
+	Temperature      float64  `json:"temperature"`
+	RotationPeriod   float64  `json:"rotationPeriod"`
+	RevolutionPeriod float64  `json:"revolutionPeriod"`
+	SurfaceFeatures  []string `json:"surfaceFeatures"`
+	MagneticField    bool     `json:"magneticField"`
+	Rings            bool     `json:"rings"`
+	Exploration      string   `json:"exploration"`
 }
 
 var planetNames = []string{
@@ -106,30 +108,37 @@ func main() {
 	// Generate a seed based on current time
 	rand.Seed(time.Now().UnixNano())
 
-	// Generate a random planet
-	planet := generateRandomPlanet()
+	router := gin.Default()
+	router.GET("/", func(c *gin.Context) {
+		planet := generateRandomPlanet()
+		c.JSON(http.StatusOK, gin.H{"success": true, "data": planet})
+	})
+	router.Run(":3000")
 
-	// Print the planet information
-	fmt.Println("")
-	fmt.Println("Planet Name:", planet.Name)
-	fmt.Println("Planet Type:", planet.Type)
-	fmt.Println("Description:", planet.Description)
-	fmt.Println("Surface Features:", planet.SurfaceFeatures)
-	fmt.Println("Livable:", planet.Livable)
-	fmt.Println("Temperature:", planet.Temperature, "°C")
+	// // Generate a random planet
+	// planet := generateRandomPlanet()
 
-	fmt.Printf("\r\n######### INFO #########\r\n")
+	// // Print the planet information
+	// fmt.Println("")
+	// fmt.Println("Planet Name:", planet.Name)
+	// fmt.Println("Planet Type:", planet.Type)
+	// fmt.Println("Description:", planet.Description)
+	// fmt.Println("Surface Features:", planet.SurfaceFeatures)
+	// fmt.Println("Livable:", planet.Livable)
+	// fmt.Println("Temperature:", planet.Temperature, "°C")
 
-	fmt.Println("Diameter:", planet.Diameter, "km")
-	fmt.Println("Gravity:", planet.Gravity, "m/s^2")
-	fmt.Println("Mass:", planet.Mass, "kg")
-	fmt.Println("Atmosphere:", planet.Atmosphere)
-	fmt.Println("Moons:", planet.Moons)
-	fmt.Println("Rotation Period:", planet.RotationPeriod, "hours")
-	fmt.Println("Revolution Period:", planet.RevolutionPeriod, "days")
-	fmt.Println("Magnetic Field:", planet.MagneticField)
-	fmt.Println("Rings:", planet.Rings)
-	fmt.Println("Exploration Status:", planet.Exploration)
+	// fmt.Printf("\r\n######### INFO #########\r\n")
+
+	// fmt.Println("Diameter:", planet.Diameter, "km")
+	// fmt.Println("Gravity:", planet.Gravity, "m/s^2")
+	// fmt.Println("Mass:", planet.Mass, "kg")
+	// fmt.Println("Atmosphere:", planet.Atmosphere)
+	// fmt.Println("Moons:", planet.Moons)
+	// fmt.Println("Rotation Period:", planet.RotationPeriod, "hours")
+	// fmt.Println("Revolution Period:", planet.RevolutionPeriod, "days")
+	// fmt.Println("Magnetic Field:", planet.MagneticField)
+	// fmt.Println("Rings:", planet.Rings)
+	// fmt.Println("Exploration Status:", planet.Exploration)
 }
 
 func generateRandomPlanet() Planet {
