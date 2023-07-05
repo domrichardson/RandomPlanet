@@ -4,44 +4,39 @@
 name: Go
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
 
 jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Create artifacts folder
+              run: |
+                  mkdir "$GITHUB_WORKSPACE/artifacts"
+                  mkdir "$GITHUB_WORKSPACE/release"
+            - name: Set up Go
+              uses: actions/setup-go@v3
+              with:
+                  go-version: 1.20
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Create artifacts folder
-      run: |
-        mkdir "$GITHUB_WORKSPACE/artifacts"
-        mkdir "$GITHUB_WORKSPACE/release"
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.20
+            - name: Build
+              run: go build -o $GITHUB_WORKSPACE/release/PlanetGenerator .
 
-    - name: Build
-      run: |
-        go install
-        go build -o $GITHUB_WORKSPACE/release/PlanetGenerator .
+            - name: Install Octopus CLI
+              uses: OctopusDeploy/install-octopus-cli-action@v1
+              with:
+                  version: latest
+            - name: Package PlanetGenerator
+              run: |
+                  octo pack --id="RandomPlanet" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/releases" --outFolder="$GITHUB_WORKSPACE/artifacts"
 
-      
-    - name: Install Octopus CLI
-      uses: OctopusDeploy/install-octopus-cli-action@v1
-      with:
-        version: latest
-    - name: Package PlanetGenerator
-      run: |
-        octo pack --id="RandomPlanet" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/releases" --outFolder="$GITHUB_WORKSPACE/artifacts"
-        
-    - name: Push OctoPetShop packages
-      uses: OctopusDeploy/push-package-action@v1
-      with:
-        api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
-        server: ${{ secrets.OCTOPUSSERVERURL }}
-        packages: "artifacts/*"
-    
+            - name: Push Random Planet package
+              uses: OctopusDeploy/push-package-action@v1
+              with:
+                  api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
+                  server: ${{ secrets.OCTOPUSSERVERURL }}
+                  packages: "artifacts/*"
