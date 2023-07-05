@@ -49,6 +49,6 @@ jobs:
                   server: ${{ secrets.OCTOPUSSERVERURL }}
                   space: ${{ secrets.OCTOPUSSERVER_SPACE }}
                   project: RandomPlanet
-                  release_version: ${{ env.PACKAGE_VERSION }}
+                  release_number: ${{ env.PACKAGE_VERSION }}
                   deploy_to: Dev
                   progress: false
