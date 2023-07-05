@@ -39,4 +39,4 @@ jobs:
               with:
                   api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
                   server: ${{ secrets.OCTOPUSSERVERURL }}
-                  packages: "${{env.GITHUB_WORKSPACE}}/artifacts/RandomPlanet.${{env.PACKAGE_VERSION}}.zip"
+                  packages: "artifacts/RandomPlanet.${{env.PACKAGE_VERSION}}.zip"
