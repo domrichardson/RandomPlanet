@@ -51,4 +51,4 @@ jobs:
                   project: RandomPlanet
                   release_version: ${{ env.PACKAGE_VERSION }}
                   deploy_to: Dev
-                  progress: true
+                  progress: false
