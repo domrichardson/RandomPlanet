@@ -26,8 +26,8 @@ jobs:
 
     - name: Build
       run: |
-      go install
-      go build -o $GITHUB_WORKSPACE/release/PlanetGenerator .
+        go install
+        go build -o $GITHUB_WORKSPACE/release/PlanetGenerator .
 
       
     - name: Install Octopus CLI
