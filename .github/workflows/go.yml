@@ -58,6 +58,7 @@ jobs:
                   api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
                   server: ${{ secrets.OCTOPUSSERVERURL }}
                   space: ${{ secrets.OCTOPUSSERVER_SPACE }}
-                  project: Octo Pet Shop
-                  deploy_to: Development
+                  project: RandomPlanet
+                  version: ${{ env.PACKAGE_VERSION }}
+                  deploy_to: Dev
                   progress: true
