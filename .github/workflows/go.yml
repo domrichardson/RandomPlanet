@@ -32,7 +32,7 @@ jobs:
                   version: latest
             - name: Package PlanetGenerator
               run: |
-                  octo pack --id="RandomPlanet" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/releases" --outFolder="$GITHUB_WORKSPACE/artifacts"
+                  octo pack --id="RandomPlanet" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/release" --outFolder="$GITHUB_WORKSPACE/artifacts"
 
             - name: Push Random Planet package
               uses: OctopusDeploy/push-package-action@v1
